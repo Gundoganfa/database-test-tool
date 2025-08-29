@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://database-test-tool-2l5ypncui-fatihs-projects-547f84c0.vercel.app/sitemap.xml
