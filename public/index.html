@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çoklu Veritabanı Test Aracı</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗄️ Çoklu Veritabanı Test Aracı</h1>
+            <p>Supabase, MySQL, PostgreSQL, SQLite ve SQL Server bağlantılarını test edin</p>
+        </header>
+
+        <main>
+            <!-- Veritabanı Seçimi -->
+            <section class="database-selection">
+                <h2>📊 Veritabanı Türü Seçin</h2>
+                <div class="db-type-buttons">
+                    <button class="db-type-btn active" data-type="supabase">
+                        <span class="db-icon">🔥</span>
+                        <span class="db-name">Supabase</span>
+                    </button>
+                    <button class="db-type-btn" data-type="mysql">
+                        <span class="db-icon">🐬</span>
+                        <span class="db-name">MySQL</span>
+                    </button>
+                    <button class="db-type-btn" data-type="postgresql">
+                        <span class="db-icon">🐘</span>
+                        <span class="db-name">PostgreSQL</span>
+                    </button>
+                    <button class="db-type-btn" data-type="sqlite">
+                        <span class="db-icon">📱</span>
+                        <span class="db-name">SQLite</span>
+                    </button>
+                    <button class="db-type-btn" data-type="sqlserver">
+                        <span class="db-icon">🪟</span>
+                        <span class="db-name">SQL Server</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Bağlantı Ayarları -->
+            <section class="connection-settings">
+                <h2>🔗 Bağlantı Ayarları</h2>
+                
+                <!-- Supabase Ayarları -->
+                <div class="connection-form" id="supabase-form">
+                    <div class="form-group">
+                        <label for="supabaseUrl">Supabase URL:</label>
+                        <input type="url" id="supabaseUrl" placeholder="https://your-project.supabase.co" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supabaseKey">Anon Key:</label>
+                        <input type="password" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+                    </div>
+                </div>
+
+                <!-- MySQL Ayarları -->
+                <div class="connection-form hidden" id="mysql-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mysqlHost">Host:</label>
+                            <input type="text" id="mysqlHost" placeholder="localhost" value="localhost">
+                        </div>
+                        <div class="form-group">
+                            <label for="mysqlPort">Port:</label>
+                            <input type="number" id="mysqlPort" placeholder="3306" value="3306">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mysqlDatabase">Database:</label>
+                        <input type="text" id="mysqlDatabase" placeholder="test_db" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mysqlUsername">Username:</label>
+                            <input type="text" id="mysqlUsername" placeholder="root" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mysqlPassword">Password:</label>
+                            <input type="password" id="mysqlPassword" placeholder="password">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PostgreSQL Ayarları -->
+                <div class="connection-form hidden" id="postgresql-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postgresqlHost">Host:</label>
+                            <input type="text" id="postgresqlHost" placeholder="localhost" value="localhost">
+                        </div>
+                        <div class="form-group">
+                            <label for="postgresqlPort">Port:</label>
+                            <input type="number" id="postgresqlPort" placeholder="5432" value="5432">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="postgresqlDatabase">Database:</label>
+                        <input type="text" id="postgresqlDatabase" placeholder="postgres" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postgresqlUsername">Username:</label>
+                            <input type="text" id="postgresqlUsername" placeholder="postgres" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postgresqlPassword">Password:</label>
+                            <input type="password" id="postgresqlPassword" placeholder="password">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SQLite Ayarları -->
+                <div class="connection-form hidden" id="sqlite-form">
+                    <div class="form-group">
+                        <label for="sqliteDatabase">Database Dosyası:</label>
+                        <input type="text" id="sqliteDatabase" placeholder="database.db" required>
+                    </div>
+                </div>
+
+                <!-- SQL Server Ayarları -->
+                <div class="connection-form hidden" id="sqlserver-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sqlserverHost">Host:</label>
+                            <input type="text" id="sqlserverHost" placeholder="localhost" value="localhost">
+                        </div>
+                        <div class="form-group">
+                            <label for="sqlserverPort">Port:</label>
+                            <input type="number" id="sqlserverPort" placeholder="1433" value="1433">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sqlserverDatabase">Database:</label>
+                        <input type="text" id="sqlserverDatabase" placeholder="master" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sqlserverUsername">Username:</label>
+                            <input type="text" id="sqlserverUsername" placeholder="sa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sqlserverPassword">Password:</label>
+                            <input type="password" id="sqlserverPassword" placeholder="password">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="testConnection" class="btn btn-primary">
+                    🔗 Bağlantıyı Test Et
+                </button>
+            </section>
+
+            <!-- Bağlantı Durumu -->
+            <section class="connection-status">
+                <div id="connectionStatus" class="status-indicator">
+                    <span class="status-icon">⏳</span>
+                    <span class="status-text">Bağlantı bekleniyor...</span>
+                </div>
+            </section>
+
+            <!-- SQL Sorgu Paneli -->
+            <section class="query-panel">
+                <h2>💻 SQL Sorgu Paneli</h2>
+                <div class="query-input">
+                    <textarea id="sqlQuery" placeholder="SQL sorgunuzu buraya yazın..."></textarea>
+                    <div class="query-buttons">
+                        <button id="executeQuery" class="btn btn-success">▶️ Sorguyu Çalıştır</button>
+                        <button id="clearQuery" class="btn btn-secondary">🗑️ Temizle</button>
+                    </div>
+                </div>
+
+                <!-- Örnek Sorgular -->
+                <div class="sample-queries">
+                    <h3>📝 Örnek Sorgular</h3>
+                    <div class="sample-buttons">
+                        <button class="sample-btn" data-query="SELECT 1">Bağlantı Testi</button>
+                        <button class="sample-btn" data-query="SELECT current_database(), current_user">Veritabanı Bilgileri</button>
+                        <button class="sample-btn" data-query="SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'">Tabloları Listele</button>
+                        <button class="sample-btn" data-query="SELECT * FROM users LIMIT 5">Kullanıcıları Listele</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sorgu Sonuçları -->
+            <section class="query-results">
+                <h2>📊 Sorgu Sonuçları</h2>
+                <div id="queryResults" class="results-container">
+                    <div class="results-placeholder">
+                        <p>🔍 Sorgu sonuçları burada görünecek...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>🚀 Çoklu Veritabanı Test Aracı v2.0</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
