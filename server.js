@@ -9,6 +9,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isVercel = process.env.VERCEL === '1';
 
 // Middleware
 app.use(cors());
@@ -449,7 +450,12 @@ async function executeSQLServerQuery(config, query) {
 }
 
 // Server başlat
-app.listen(PORT, () => {
-    console.log(`🚀 Server http://localhost:${PORT} adresinde çalışıyor`);
-    console.log(`📁 Statik dosyalar: ${path.join(__dirname, 'public')}`);
-});
+if (!isVercel) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server http://localhost:${PORT} adresinde çalışıyor`);
+        console.log(`📁 Statik dosyalar: ${path.join(__dirname, 'public')}`);
+    });
+}
+
+// Vercel için export
+module.exports = app;
